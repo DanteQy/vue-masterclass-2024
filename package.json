@@ -13,7 +13,9 @@
     "format": "prettier --write src/",
     "supabase:init": "supabase init",
     "supabase:login": "supabase login",
-    "supabase:link": "supabase link --project-ref baavizkjepbcaklxvgvd",
+    "supabase:types": "npx supabase gen types typescript --project-id bntfrtfbczngrwvylsch --schema public > database/types.ts"
+  },
+    "supabase:link": "supabase link --project-ref bntfrtfbczngrwvylsch",
     "db:migrate:new": "supabase migration new projects-schema",
     "db:reset": "supabase db reset --linked",
     "db:seed": "node --env-file=.env database/seed.js"
