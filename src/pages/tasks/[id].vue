@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Task, taskQuery } from '@/utils/supaQueries'
+import { taskQuery, type Task } from '@/utils/supaQueries'
 
 const route = useRoute('/tasks/[id]')
 
@@ -13,9 +13,9 @@ watch(
 )
 
 const getTask = async () => {
-  const { data, error } = await taskQuery(route.params.id)
+  const { data, error, status } = await taskQuery(route.params.id)
 
-  if (error) console.log(error)
+  if (error) useErrorStore().setError({ error, customCode: status })
 
   task.value = data
 }
@@ -56,7 +56,7 @@ await getTask()
             v-for="collab in task.collaborators"
             :key="collab"
           >
-            <RouterLink to="" class="w-full h-full flex items-center justify-center">
+            <RouterLink class="w-full h-full flex items-center justify-center" to="">
               <AvatarImage src="" alt="" />
               <AvatarFallback></AvatarFallback>
             </RouterLink>
