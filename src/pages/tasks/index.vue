@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { columns } from '@/utils/tableColumns/taskColumns'
-import { type TasksWithProjects, tasksWithProjectsQuery } from '@/utils/supaQueries'
+import { tasksWithProjectsQuery } from '@/utils/supaQueries'
+import { columns } from '@/utils/tableColumns/tasksColumns'
+import type { TasksWithProjects } from '@/utils/supaQueries'
 
 usePageStore().pageData.title = 'My Tasks'
 
@@ -12,6 +13,7 @@ const getTasks = async () => {
 
   tasks.value = data
 }
+
 await getTasks()
 </script>
 

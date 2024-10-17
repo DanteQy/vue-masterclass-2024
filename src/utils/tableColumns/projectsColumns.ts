@@ -1,6 +1,6 @@
-import type { ColumnDef } from '@tanstack/vue-table'
-import type { Projects } from '@/utils/supaQueries'
 import { RouterLink } from 'vue-router'
+import type { ColumnDef } from '@tanstack/vue-table'
+import type { Projects } from '../supaQueries'
 
 export const columns: ColumnDef<Projects[0]>[] = [
   {

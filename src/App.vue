@@ -1,9 +1,12 @@
 <script setup lang="ts">
-const { activeError } = storeToRefs(useErrorStore())
-
 const errorStore = useErrorStore()
+
 onErrorCaptured((error) => {
   errorStore.setError({ error })
+})
+
+onMounted(() => {
+  useAuthStore().trackAuthChanges()
 })
 </script>
 

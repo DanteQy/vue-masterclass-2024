@@ -40,19 +40,26 @@ const table = useVueTable({
             :data-state="row.getIsSelected() ? 'selected' : undefined"
           >
             <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-              <!--              <slot :name="`cell-${cell.column.id}`" :cell="cell">-->
-              <!--                {{ cell.getValue() }}-->
-              <!--              </slot>-->
               <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
             </TableCell>
           </TableRow>
         </template>
         <template v-else>
           <TableRow>
-            <TableCell :colspan="columns.length" class="h-24 text-center"> No results.</TableCell>
+            <TableCell :colspan="columns.length" class="h-24 text-center"> No results. </TableCell>
           </TableRow>
         </template>
       </TableBody>
     </Table>
   </div>
 </template>
+
+<style scoped>
+td {
+  @apply p-0;
+}
+
+td > * {
+  @apply p-4;
+}
+</style>

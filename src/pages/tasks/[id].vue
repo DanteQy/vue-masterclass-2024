@@ -26,29 +26,29 @@ await getTask()
 <template>
   <Table v-if="task">
     <TableRow>
-      <TableHead> Name</TableHead>
-      <TableCell> {{ task.name }}</TableCell>
+      <TableHead> Name </TableHead>
+      <TableCell> {{ task.name }} </TableCell>
     </TableRow>
     <TableRow>
-      <TableHead> Description</TableHead>
+      <TableHead> Description </TableHead>
       <TableCell>
         {{ task.description }}
       </TableCell>
     </TableRow>
     <TableRow>
-      <TableHead> Assignee</TableHead>
+      <TableHead> Assignee </TableHead>
       <TableCell>Lorem ipsum</TableCell>
     </TableRow>
     <TableRow>
-      <TableHead> Project</TableHead>
+      <TableHead> Project </TableHead>
       <TableCell>{{ task.projects?.name }}</TableCell>
     </TableRow>
     <TableRow>
-      <TableHead> Status</TableHead>
+      <TableHead> Status </TableHead>
       <TableCell>{{ task.status }}</TableCell>
     </TableRow>
     <TableRow>
-      <TableHead> Collaborators</TableHead>
+      <TableHead> Collaborators </TableHead>
       <TableCell>
         <div class="flex">
           <Avatar
@@ -58,14 +58,14 @@ await getTask()
           >
             <RouterLink class="w-full h-full flex items-center justify-center" to="">
               <AvatarImage src="" alt="" />
-              <AvatarFallback></AvatarFallback>
+              <AvatarFallback> </AvatarFallback>
             </RouterLink>
           </Avatar>
         </div>
       </TableCell>
     </TableRow>
     <TableRow class="hover:bg-transparent">
-      <TableHead class="align-top pt-4"> Comments</TableHead>
+      <TableHead class="align-top pt-4"> Comments </TableHead>
 
       <TableCell>
         Comments cards goes in here..
@@ -77,7 +77,7 @@ await getTask()
           >
           </textarea>
           <div class="flex justify-between mt-3">
-            <Button> Comment</Button>
+            <Button> Comment </Button>
             <div class="flex gap-4">
               <button variant="ghost" @click.prevent>
                 <iconify-icon icon="lucide:paperclip"></iconify-icon>

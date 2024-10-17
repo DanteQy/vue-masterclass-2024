@@ -20,10 +20,8 @@ defineProps<{
     <div class="error-footer">
       <p class="error-footer__text">You'll find lots to explore on the home page.</p>
       <RouterLink to="/">
-        <Button class="max-w-36"> Back to homepage</Button>
+        <Button class="max-w-36"> Back to homepage </Button>
       </RouterLink>
     </div>
   </div>
 </template>
-
-<style scoped></style>
