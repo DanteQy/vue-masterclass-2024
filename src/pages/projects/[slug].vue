@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { projectQuery } from '@/utils/supaQueries'
-import type { Project } from '@/utils/supaQueries'
+const { slug } = useRoute('/projects/[slug]').params
 
-const route = useRoute('/projects/[slug]')
-
-const project = ref<Project | null>(null)
+const projectsLoader = useProjectsStore()
+const { project } = storeToRefs(projectsLoader)
+const { getProject } = projectsLoader
 
 watch(
   () => project.value?.name,
@@ -13,35 +12,27 @@ watch(
   }
 )
 
-const getProjects = async () => {
-  const { data, error, status } = await projectQuery(route.params.slug)
-
-  if (error) useErrorStore().setError({ error, customCode: status })
-
-  project.value = data
-}
-
-await getProjects()
+await getProject(slug)
 </script>
 
 <template>
   <Table v-if="project">
     <TableRow>
-      <TableHead> Name </TableHead>
-      <TableCell> {{ project.name }} </TableCell>
+      <TableHead> Name</TableHead>
+      <TableCell> {{ project.name }}</TableCell>
     </TableRow>
     <TableRow>
-      <TableHead> Description </TableHead>
+      <TableHead> Description</TableHead>
       <TableCell>
         {{ project.description }}
       </TableCell>
     </TableRow>
     <TableRow>
-      <TableHead> Status </TableHead>
+      <TableHead> Status</TableHead>
       <TableCell>{{ project.status }}</TableCell>
     </TableRow>
     <TableRow>
-      <TableHead> Collaborators </TableHead>
+      <TableHead> Collaborators</TableHead>
       <TableCell>
         <div class="flex">
           <Avatar
@@ -51,7 +42,7 @@ await getProjects()
           >
             <RouterLink class="w-full h-full flex items-center justify-center" to="">
               <AvatarImage src="" alt="" />
-              <AvatarFallback> </AvatarFallback>
+              <AvatarFallback></AvatarFallback>
             </RouterLink>
           </Avatar>
         </div>
@@ -66,16 +57,16 @@ await getProjects()
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead> Name </TableHead>
-              <TableHead> Status </TableHead>
-              <TableHead> Due Date </TableHead>
+              <TableHead> Name</TableHead>
+              <TableHead> Status</TableHead>
+              <TableHead> Due Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow v-for="task in project.tasks" :key="task.id">
-              <TableCell> Lorem ipsum dolor sit amet. </TableCell>
-              <TableCell> In progress </TableCell>
-              <TableCell> 22/08/2024 </TableCell>
+              <TableCell> Lorem ipsum dolor sit amet.</TableCell>
+              <TableCell> In progress</TableCell>
+              <TableCell> 22/08/2024</TableCell>
             </TableRow>
           </TableBody>
         </Table>

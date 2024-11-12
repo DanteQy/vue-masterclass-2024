@@ -1,8 +1,8 @@
 import type { LoginForm } from '@/types/AuthForm'
 import type { AuthError } from '@supabase/supabase-js'
 
-type FormErrors<Type> = {
-  [Property in keyof LoginForm]: string[]
+type FormErrors<T> = {
+  [K in keyof T]: string[]
 }
 
 export const useFormErrors = () => {
@@ -11,7 +11,9 @@ export const useFormErrors = () => {
 
   const handleServerError = (error: AuthError) => {
     serverError.value =
-      error.message === 'Invalid login credentials' ? 'Incorrect email or password' : error.message
+      error.message === 'Invalid login credentials'
+        ? 'Incorrect email or password'
+        : error.message
   }
 
   const handleLoginForm = async (formData: LoginForm) => {
@@ -20,7 +22,9 @@ export const useFormErrors = () => {
       password: []
     }
 
-    const { validateEmail, validatePassword } = await import('@/utils/formValidations')
+    const { validateEmail, validatePassword } = await import(
+      '@/utils/formValidations'
+    )
 
     const emailErrors = validateEmail(formData.email)
     if (emailErrors.length) realtimeErrors.value.email = emailErrors
