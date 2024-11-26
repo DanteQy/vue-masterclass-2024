@@ -63,8 +63,8 @@ export const useProjectsStore = defineStore('projects-store', () => {
     })
   }
 
-  const updateProject = async () => {
-    if (!project.value) return
+  const updateProject = async (readonly: Boolean) => {
+    if (!project.value || readonly) return
 
     const { tasks, id, ...projectProperties } = project.value
     await updateProjectQuery(projectProperties, project.value.id)

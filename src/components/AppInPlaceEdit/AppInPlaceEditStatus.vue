@@ -1,9 +1,12 @@
 <script setup lang="ts">
 const status = defineModel<'in-progress' | 'completed'>()
-
+const { readonly = false } = defineProps<{
+  readonly?: boolean
+}>()
 const emit = defineEmits(['commit'])
 
 const toggleValue = () => {
+  if (readonly) return
   status.value = status.value === 'completed' ? 'in-progress' : 'completed'
   emit('commit')
 }
