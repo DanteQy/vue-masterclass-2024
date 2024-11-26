@@ -4,6 +4,8 @@ import type { Tables } from 'database/types'
 
 const { username } = useRoute('/users/[username]').params
 
+usePageStore().pageData.title = ''
+
 const profile = ref<Tables<'profiles'> | null>(null)
 const getTasks = async () => {
   const { data, error, status } = await profileQuery({
@@ -20,9 +22,7 @@ await getTasks()
 </script>
 
 <template>
-  <div
-    class="mx-auto mb-10 flex w-full flex-col items-center justify-center py-10 text-center"
-  >
+  <div class="mx-auto mb-10 flex w-full flex-col items-center justify-center py-10 text-center">
     <div class="flex flex-col items-center justify-center pb-4">
       <Avatar size="lg">
         <AvatarImage :src="profile?.avatar_url || ''" alt="@radix-vue" />
