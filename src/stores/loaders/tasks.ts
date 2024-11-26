@@ -1,20 +1,15 @@
-import {
-  type TasksWithProjects as Tasks,
-  type Task,
-  projectsQuery,
-  projectQuery,
-  updateProjectQuery
-} from '@/utils/supaQueries'
-import { tasksWithProjectsQuery, taskQuery } from '@/utils/supaQueries'
+import { taskQuery, tasksWithProjectsQuery, updateTaskQuery } from '@/utils/supaQueries'
 import { useMemoize } from '@vueuse/core'
+import type { Task, TasksWithProjects } from '@/utils/supaQueries'
 
-export const useTasksStore = defineStore('projects-store', () => {
-  const tasks = ref<Tasks | null>(null)
+export const useTasksStore = defineStore('tasks-store', () => {
+  const tasks = ref<TasksWithProjects | null>(null)
   const task = ref<Task | null>(null)
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const loadTasks = useMemoize(async (key: string) => await tasksWithProjectsQuery)
-  const loadTask = useMemoize(async (id: string) => await taskQuery(id))
+  const loadTasks = useMemoize(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (id: string) => await tasksWithProjectsQuery
+  )
+  const loadTask = useMemoize(async (slug: string) => await taskQuery(slug))
 
   interface ValidateCacheParams {
     ref: typeof tasks | typeof task
@@ -23,7 +18,6 @@ export const useTasksStore = defineStore('projects-store', () => {
     loaderFn: typeof loadTasks | typeof loadTask
   }
 
-  // this will make sure that what we get has differences so we'll need to update the cache
   const validateCache = ({ ref, query, key, loaderFn }: ValidateCacheParams) => {
     if (ref.value) {
       const finalQuery = typeof query === 'function' ? query(key) : query
@@ -41,6 +35,7 @@ export const useTasksStore = defineStore('projects-store', () => {
 
   const getTasks = async () => {
     tasks.value = null
+
     const { data, error, status } = await loadTasks('tasks')
 
     if (error) useErrorStore().setError({ error, customCode: status })
@@ -57,6 +52,7 @@ export const useTasksStore = defineStore('projects-store', () => {
 
   const getTask = async (id: string) => {
     task.value = null
+
     const { data, error, status } = await loadTask(id)
 
     if (error) useErrorStore().setError({ error, customCode: status })
@@ -71,18 +67,20 @@ export const useTasksStore = defineStore('projects-store', () => {
     })
   }
 
-  const updateTask = async (readonly: Boolean) => {
-    //   if (!project.value || readonly) return
-    //
-    //   const { tasks, id, ...projectProperties } = project.value
-    //   await updateProjectQuery(projectProperties, project.value.id)
+  const updateTask = async () => {
+    if (!task.value) return
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { projects, id, ...taskProperties } = task.value
+
+    await updateTaskQuery(taskProperties, task.value.id)
   }
 
   return {
     tasks,
     getTasks,
-    task,
     getTask,
+    task,
     updateTask
   }
 })

@@ -23,17 +23,15 @@ const collabs = task.value?.collaborators ? await getProfilesByIds(task.value?.c
   <Table v-if="task">
     <TableRow>
       <TableHead> Name</TableHead>
-      <TableCell> {{ task.name }}</TableCell>
+      <TableCell>
+        <AppInPlaceEditText v-model="task.name" @commit="updateTask" />
+      </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Description</TableHead>
       <TableCell>
-        {{ task.description }}
+        <AppInPlaceEditTextarea class="h-20" v-model="task.description" @commit="updateTask" />
       </TableCell>
-    </TableRow>
-    <TableRow>
-      <TableHead> Assignee</TableHead>
-      <TableCell>Lorem ipsum</TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Project</TableHead>
@@ -41,29 +39,33 @@ const collabs = task.value?.collaborators ? await getProfilesByIds(task.value?.c
     </TableRow>
     <TableRow>
       <TableHead> Status</TableHead>
-      <TableCell>{{ task.status }}</TableCell>
+      <TableCell>
+        <AppInPlaceEditStatus v-model="task.status" @commit="updateTask" />
+      </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Collaborators</TableHead>
       <TableCell>
-        <div class="flex">
-          <Avatar
-            class="-mr-4 border border-primary hover:scale-110 transition-transform"
-            v-for="collab in collabs"
-            :key="collab.id"
-          >
-            <RouterLink
-              class="w-full h-full flex items-center justify-center"
-              :to="{
-                name: '/users/[username]',
-                params: { username: collab.username }
-              }"
+        <TableCell>
+          <div class="flex">
+            <Avatar
+              class="-mr-4 border border-primary hover:scale-110 transition-transform"
+              v-for="collab in collabs"
+              :key="collab.id"
             >
-              <AvatarImage :src="collab.avatar_url || ''" :alt="collab.full_name" />
-              <AvatarFallback></AvatarFallback>
-            </RouterLink>
-          </Avatar>
-        </div>
+              <RouterLink
+                class="w-full h-full flex items-center justify-center"
+                :to="{
+                  name: '/users/[username]',
+                  params: { username: collab.username }
+                }"
+              >
+                <AvatarImage :src="collab.avatar_url || ''" alt="" />
+                <AvatarFallback></AvatarFallback>
+              </RouterLink>
+            </Avatar>
+          </div>
+        </TableCell>
       </TableCell>
     </TableRow>
     <TableRow class="hover:bg-transparent">
@@ -97,3 +99,17 @@ const collabs = task.value?.collaborators ? await getProfilesByIds(task.value?.c
     </TableRow>
   </Table>
 </template>
+
+<style>
+th {
+  @apply w-[100px];
+}
+
+h2 {
+  @apply mb-4 text-lg font-semibold w-fit;
+}
+
+.table-container {
+  @apply overflow-hidden overflow-y-auto rounded-md bg-slate-900 h-80;
+}
+</style>
