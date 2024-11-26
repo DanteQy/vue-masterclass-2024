@@ -19,7 +19,9 @@ await getProject(slug)
   <Table v-if="project">
     <TableRow>
       <TableHead> Name</TableHead>
-      <TableCell> {{ project.name }}</TableCell>
+      <TableCell>
+        <app-in-place-edit-text v-model="project.name" />
+      </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Description</TableHead>
