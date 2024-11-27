@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { profile } = storeToRefs(useAuthStore())
+
 const links = [
   {
     title: 'Dashboard',
@@ -17,23 +19,19 @@ const links = [
   }
 ]
 
-const accountLinks = [
-  {
-    title: 'Profile',
-    to: '/profile',
-    icon: 'lucide:user'
-  },
-
-  {
-    title: 'Settings',
-    to: '/settings',
-    icon: 'lucide:settings'
-  },
-  {
-    title: 'Sign Out',
-    icon: 'lucide:log-out'
-  }
-]
+const accountLinks = computed(() => {
+  return [
+    {
+      title: 'Profile',
+      to: `/users/${profile.value?.username}`,
+      icon: 'lucide:user'
+    },
+    {
+      title: 'Sign Out',
+      icon: 'lucide:log-out'
+    }
+  ]
+})
 
 const router = useRouter()
 
@@ -45,7 +43,8 @@ const executeAction = async (linkTitle: string) => {
     if (isLoggedOut) router.push('/login')
   }
 }
-defineEmits('taskClicked')
+
+defineEmits(['taskClicked'])
 </script>
 
 <template>
@@ -64,8 +63,8 @@ defineEmits('taskClicked')
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem @click="$emit('taskClicked')">Add Task</DropdownMenuItem>
-          <DropdownMenuItem>Add Project</DropdownMenuItem>
+          <DropdownMenuItem @click="$emit('taskClicked')"> Task </DropdownMenuItem>
+          <DropdownMenuItem> Project</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
