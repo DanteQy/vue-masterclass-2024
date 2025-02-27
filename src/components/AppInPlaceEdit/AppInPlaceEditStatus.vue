@@ -1,22 +1,25 @@
 <script setup lang="ts">
-const status = defineModel<'in-progress' | 'completed'>()
+const value = defineModel<'in-progress' | 'completed'>()
+
+const emit = defineEmits(['commit'])
+
 const { readonly = false } = defineProps<{
   readonly?: boolean
 }>()
-const emit = defineEmits(['commit'])
 
 const toggleValue = () => {
   if (readonly) return
-  status.value = status.value === 'completed' ? 'in-progress' : 'completed'
+
+  value.value = value.value === 'completed' ? 'in-progress' : 'completed'
   emit('commit')
 }
 </script>
 
 <template>
   <div class="text-2xl cursor-pointer" @click="toggleValue">
-    <Transition mode="out-in">
+    <Transition name="scale" mode="out-in">
       <iconify-icon
-        v-if="status === 'completed'"
+        v-if="value === 'completed'"
         icon="lucide:circle-check"
         class="text-green-500"
       />
@@ -24,15 +27,3 @@ const toggleValue = () => {
     </Transition>
   </div>
 </template>
-
-<style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: transform 0.1s;
-}
-
-.v-enter-from,
-.v-leave-to {
-  transform: scale(0.3);
-}
-</style>
