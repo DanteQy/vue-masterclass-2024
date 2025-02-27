@@ -120,7 +120,7 @@ const triggerDelete = async () => {
   </div>
 </template>
 
-<style>
+<style scoped>
 th {
   @apply w-[100px];
 }
